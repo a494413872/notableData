@@ -1,8 +1,8 @@
 ---
-tags: [java/杂记]
+tags: [java/基础知识]
 title: Controller返回中文
 created: '2019-11-27T09:09:57.839Z'
-modified: '2019-12-05T05:47:42.682Z'
+modified: '2019-12-05T10:29:11.358Z'
 ---
 
 # Controller返回中文
