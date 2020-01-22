@@ -2,7 +2,7 @@
 tags: [java/杂记]
 title: Markdown
 created: '2019-12-05T03:04:37.620Z'
-modified: '2019-12-05T10:28:53.562Z'
+modified: '2019-12-16T06:36:37.574Z'
 ---
 
 # Markdown
@@ -45,6 +45,35 @@ a | b | c
 1 | 2 | 3 
 11 | 22|33
 111 | 222|333
+
+#### 流程图
+```mermaid
+graph LR;
+  A --> B;
+  B --> C;
+  C --> D;
+  A --> E;
+  E --> C;
+```
+#### 甘特图
+```mermaid
+gantt
+    dateFormat YYYY-MM-DD
+    title 标题
+    section A section
+    task A:done,des1,2019-01-01,2019-01-03
+    task B:active,des2,2019-01-03,2019-01-05
+    task C:des3,after des1,6d
+    task D:des4,after des3,7d
+    section B section
+    如果标题太长就会放在外面     :crit,done,des11,2019-01-01,24h
+    task F:crit, active,des22, after des11, 2d
+    task G:crit, 7d
+    task H:2d
+```
+
+
+
 
 
 
