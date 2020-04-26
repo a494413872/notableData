@@ -1,15 +1,15 @@
 ---
 tags: [java/基础知识]
-title: Java基础：
+title: Java基础
 created: '2019-11-27T02:44:21.273Z'
-modified: '2019-12-10T03:20:31.694Z'
+modified: '2020-04-26T07:14:53.299Z'
 ---
 
-Java基础：
-hashmap结构；什么对象能做为key
+# Java基础
+1. hashmap结构；什么对象能做为key
 不可变对象才能作为key，所谓的可变对象，指的是对象在创建之后它的哈希值（由类的hashCode（）方法可以得出哈希值）是可以改变的。
 
-hashMap,concurrentHashMap,hashtable比较
+2. hashMap,concurrentHashMap,hashtable比较
 Map是定义了存储key-value元素对的接口，具体实现是链表加数组的形式。
 HashMap实现将唯一键映射到特定值上，允许一个null的key和多个null的value。
 jdk 8 之后，优化了下，链表长度超过8之后，就会转化为红黑树时间复杂度从O(n)变为O(logN)
@@ -17,7 +17,7 @@ HashTable同步版的HashMap，通过synchronize锁住整个table，所以速度
 concurrentHashMap，通过segment进行分段锁，其实每一个segement就相当一个小的hashTable。结构是数组-数组-链表
 
 
-二叉树和红黑树。
+3. 二叉树和红黑树。
 二叉树指的是一种数据结构，左子树一定小于等于根节点，右子树一定大于等于根节点。
 二叉树会导致长度不均。所以就有了红黑树。
 红黑树是一种自平衡二叉树。通过改变颜色以及左旋和右旋调节自身平衡。红黑树有5个规则
@@ -28,17 +28,17 @@ concurrentHashMap，通过segment进行分段锁，其实每一个segement就相
 5.从任一节点到其每个叶子的所有路径都包含相同数目的黑色节点。
 
 
-HashMap扩容
+4. HashMap扩容
 当元素个数>数组*负载因子的时候。就会重新扩容。
 扩容为原容量两倍，并且重新计算索引转移到新的数组里面。
 
 
-String,StringBuilder,StringBuffer
+6. String,StringBuilder,StringBuffer
 在这方面运行速度快慢为：StringBuilder > StringBuffer > String
 String为字符串常量，而StringBuilder和StringBuffer均为字符串变量，即String对象一旦创建之后该对象是不可更改的，但后两者的对象是变量，是可以更改的
 在线程安全上，StringBuilder是线程不安全的，而StringBuffer是线程安全的
 
-CAS算法
+5. CAS算法
 synchronized加锁属于悲观锁，我们认为一旦并发就一定会发生冲突。
 CAS属于乐观锁，我们认为不太可能发生冲突。而一旦冲突我们就重复之前的动作。
 比较交换（CAS Compare And Swap）
@@ -49,16 +49,16 @@ CSA的问题
 1.ABA问题
 如果一个A变为B再变为A，这时候单纯的CAS算法，就会认为这个值没有变化，还是A但是实际上已经改变了。这时候可以加一个版本号。ABA就变成了A1B2A3这样。
 2.自旋时间过长
-使用CSA就以为这个不会挂起，会自旋（死循环），进行下次尝试。如果不加控制，消耗很大。
+使用CSA就因为这个不会挂起，会自旋（死循环），进行下次尝试。如果不加控制，消耗很大。
 3.只能保证一个共享变量的原子操作。
 如果是多个共享变量，就不能保证原子性。但是可以通过把多个变量封装为一个对象来解决
 
 
-对象的深浅复制
+6. 对象的深浅复制
 浅复制只复制值，如果有对象复制引用。
 深复制，连对象也复制。所有对象树都进行浅复制就是深复制了。
 
-多线程：
+7. 多线程：
 wait,sleep分别是谁的方法，区别
 1.sleep是Thread的静态类方法，谁调用的谁去睡觉，即使在a线程里调用了b的sleep方法，实际上还是a去睡觉，要让b线程睡觉要在b的代码中调用sleep
 2.最主要是sleep方法没有释放锁，而wait方法释放了锁，使得其他线程可以使用同步控制块或者方法。Thread.Sleep(0)的作用是“触发操作系统立刻重新进行一次CPU竞争”
@@ -77,16 +77,23 @@ new ThreadPoolExecutor.CallerRunsPolicy()，当线程池满了，并且队列也
 先启动核心线程，然后再放入队列，最后再启动max，最后走策略。
 
 
-还有Java的锁，内置锁，显示锁，各种容器
+8. 还有Java的锁，内置锁，显示锁，各种容器
 及锁优化：锁消除，锁粗化，锁偏向，轻量级锁
 
-web方面：
+9. web方面：
 servlet是否线程安全，如何改造
 servlet在tomcat之中是单例多线程的。此时如果Servlet中定义了实例变量或静态变量，那么可能会发生线程安全问题
 
-session与cookie的区别，get和post区别，tcp3次握手，文件上传用post还是get
+10. session与cookie的区别
+由于客户端和服务端之间的会话是无状态的机制，所以Session可以用来关联访问。
+当第一次访问js和servlet的时候tomcat会自动生成一个session(当访问html，image的时候不会生成，可以通过request.getSession(true)强制生成)。同时生成sessionid。
+tomcat的ManagerBase类提供创建sessionid的方法：随机数+时间+jvmid。
+sessionid生成之后，会被放在response的header里面，叫做Set-Cookie用来通知浏览器把sessionId存储下来，在tomcat和jetty服务器中，这个cookie的name叫jsessionid。
+当第二次访问的时候，tomcat就会根据cookie中的jsession在服务器端查到对应的session，如果能查找的到，那么两次请求就相当于关联起来了。
+如果在java代码中，调用session.invalidate()方法，会注销掉当前session，但是不代表当前就无session了，因为tomcat会马上生成一个新的session并且，当请求返回时通过Set-Cookie方式通知服务器存储新的jseesionid
 session是存在于服务器的，cookie是存在于客户机的
-get和post区别：get和post本质上都是tcp请求。一般情况下，get的参数是放在URL后面的，而post请求是放在request body里面的。当然这并不是绝对的
+11. get和post区别
+get和post本质上都是tcp请求。一般情况下，get的参数是放在URL后面的，而post请求是放在request body里面的。当然这并不是绝对的
 get请求也可以在request body里面传递参数，有些服务器会解析有些不会。post和get还有一个重大区别，get产生一个tcp数据包，post产生两个tcp数据包。
 对于get请求，浏览器会把httpheader和data发过去服务器返回200，而post请求会先返回100continue，然后在发送data过去，服务器才会返回200
 get的话，一般认为有长度限制2k，而post数据放在httpbody就无限制了。所以上传文件一般会用post
@@ -100,11 +107,9 @@ tcp4次握手，关闭连接
 3.客户机读通道关闭
 4.服务器写通道关闭
 
-session的存储
-session在访问tomcat服务器HttpServletRequest的getSession(true)的时候创建，tomcat的ManagerBase类提供创建sessionid的方法：随机数+时间+jvmid。 
-存储在服务器的内存中，tomcat的StandardManager类将session存储在内存中，也可以持久化到file，数据库，memcache，redis等
 
-如何防止表单重复提交
+
+12. 如何防止表单重复提交
 1.通过js限制。
 2.在服务器端生成一个唯一的随机标识号，Token(令牌)，同时在当前用户的Session域中保存这个Token。然后将Token发送到客户端的Form表单中，在Form表单中使用隐藏域来存储这个Token，表单提交的时候连同这个Token一起提交到服务器端，然后在服务器端判断客户端提交上来的Token与服务器端生成的Token是否一致，如果不一致，那就是重复提交了，此时服务器端就可以不处理重复提交的表单。如果相同则处理表单提交，处理完后清除当前用户的Session域中存储的标识号。
 
@@ -848,6 +853,6 @@ java动态代理和静态代理的区别是
 Proxy.newProxyInstance三个参数1.对象的类加载器，2.动态代理类需要实现的接口，3.实现InvocationHandler的对象，提供Invoke方法。
 invoke三个参数：1,.proxy就是代理对象，newProxyInstance方法的返回对象 2.method：调用的方法 3.args: 方法中的参数
 
-
-1.详情页改版 memcached 解决缓存雪崩问题, 使用单例模式，双重检查。使用单例模式的原因是1.节省资源，2.保证连接池的唯一性
+Daemon线程/守护线程
+线程分为用户线程和守护线程，守护线程指序运行的时候在后台提供一种通用服务的线程，比如垃圾回收线程就是一个很称职的守护者。当所有的非守护线程结束时，程序也就终止了，同时会杀死进程中的所有守护线程。将线程转换为守护线程可以通过调用Thread对象的setDaemon(true)方法来实现。thread.setDaemon(true)必须在thread.start()之前设置，否则会跑出一个IllegalThreadStateException异常。在Daemon线程中产生的新线程也是Daemon的。守护线程应该永远不去访问固有资源，如文件、数据库，因为它会在任何时候甚至在一个操作的中间发生中断
                                                                                                                                                                    
