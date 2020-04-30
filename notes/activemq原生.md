@@ -2,7 +2,7 @@
 tags: [java/中间件]
 title: activemq原生
 created: '2020-04-17T07:09:32.228Z'
-modified: '2020-04-26T07:40:39.940Z'
+modified: '2020-04-27T09:02:58.976Z'
 ---
 
 # activemq原生
@@ -86,7 +86,7 @@ java消息服务是指两个应用程序之间进行异步通信的API
 2. 事物
     > 在createSession可以设置事物，如果设置false，send就可以把消息发送到服务器，如果是true一定要手动commit才能提交到服务器。反之消费者也一样，如果true，也需要手动commit，服务器的消息才会被消费掉。
 3. 签收
-事物大于签收，如果开启事物了，一般以事物为准.所以签收一般是指非事物情况下才会生效
+事物大于签收，如果开启事物了，一般以事物为准.所以签收一般是指非事物情况下才会生效. 开启手动签收，需要在message上ack才确认收到消息。
 
  -|- |-
 ---|---|-
@@ -146,7 +146,32 @@ failover://(tcp://******?wireFormat.maxInactivityDuration=0)?randomize=false
 wireFormat.maxInactivityDuration=0 这样设置表示永远不合服务器断开连接。就算长时间没有消息接收或者发送仍然处在连接中。
 randomize=false 使客户端首先连接到主节点，并在主节点不可用时只连接到辅助备份代理
 #### activemq消息存储和持久化
+activemq支持，jdbc，amq，kahadb（默认），leveldb。数据库可以和activemq在不同服务器上。
+- amq，5.3以前的存储方式，以文件方式存储。默认使用
+- kahadb,5.3以后推荐使用。5.4以后默认使用。基于日志文件存储。
+  >消息存储一个事物日志和仅仅用一个索引文件来存储它所有的地址。
+  数据被追加到data logs中，当不需要log文件中的数据时，.log文件会被丢弃。.log文件是预定义大小的，不停追加消息，如果满了，就会自动新建.log文件。命名为db-<number>.log。 db.data 索引，db.free 空闲位置，db.redo 强制退出后用来恢复索引。lock，读写锁。
+- jdbc/jdbc message store with active mq journal
+  1. 引入jar
+  2. persistenceAdapter 改为jdbc，datasource 指向mysql-ds
+  3. 配置bean mysql-ds
+  >如果是队列，没有消费的情况下，消息保存草activemq_msgs表中，消费掉就没了。非持久化的消息，不会被存到数据库，只在内存
+  如果是topic先启动消费者订阅，再生产情况下订阅者存在activemq_acks。发送出去的消息也会记录在activemq_msgs。并且topic类型的消息不会被删除。
+  4. jdbc message store with active mq journal。在activemq中增加journal，然再在把journal文件同步到mysql。 journalPersistenceAdapterFactory
+发送者将消息发送至消息中心，消息中心先存储到持久化，然后再尝试推送到消费者，消费之后再删除掉。
+消息中心启动以后，要先检查指定的存储位置，如果有未发送的消息，就需要把未发送消息发送出去。
+  5. leveldb 自定义索引代替Btree索引，速度更快。
+配置方式:
+```
+<persistenceAdapter>
+            <kahaDB directory="${activemq.data}/kahadb"/>
+</persistenceAdapter>
+```
+
 #### activemq多节点集群
+引入消息队列后如何保证其高可用性？
+基于zookeeper和replicate-leveldb-store搭建activemq集群。集群仅提供主备凡是的高可用集群功能，避免单点故障。
+zookeeper集群注册所有的activemq broker。但是只有一个broker提供服务被视为master。其他broker出于待机状态被称为slave。
 #### activemq高级特性和大厂常考重点
 
 
