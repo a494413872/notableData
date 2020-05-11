@@ -2,7 +2,7 @@
 tags: [linux/myserver]
 title: 安装halo
 created: '2020-04-23T02:19:22.141Z'
-modified: '2020-04-26T06:57:52.977Z'
+modified: '2020-05-11T05:47:10.641Z'
 ---
 
 # 安装halo
@@ -59,7 +59,7 @@ sudo curl -o /usr/lib/systemd/system/halo.service --create-dirs https://dl.halo.
 7. 下载完成之后，我们还需要对其进行修改。
 ```
 # 修改 halo.service
-sudo vim /etc/systemd/system/halo.service
+sudo vim /usr/lib/systemd/system/halo.service
 ```
 8. 进去之后你会看到如下配置
 ```

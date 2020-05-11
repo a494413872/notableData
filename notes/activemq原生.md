@@ -2,7 +2,7 @@
 tags: [java/中间件]
 title: activemq原生
 created: '2020-04-17T07:09:32.228Z'
-modified: '2020-04-27T09:02:58.976Z'
+modified: '2020-05-08T06:36:56.305Z'
 ---
 
 # activemq原生
@@ -75,7 +75,7 @@ java消息服务是指两个应用程序之间进行异步通信的API
 4. StreamMessage
 5. ObjectMessage
 - 消息属性
-如果需要消息头意外的标识，可以增加消息属性。
+如果需要消息头以外的标识，可以增加消息属性。
 通过StringProperties，BooleanBroperties等等。
 
 #### JMS可靠性
@@ -173,6 +173,29 @@ activemq支持，jdbc，amq，kahadb（默认），leveldb。数据库可以和a
 基于zookeeper和replicate-leveldb-store搭建activemq集群。集群仅提供主备凡是的高可用集群功能，避免单点故障。
 zookeeper集群注册所有的activemq broker。但是只有一个broker提供服务被视为master。其他broker出于待机状态被称为slave。
 #### activemq高级特性和大厂常考重点
+1. 引入消息之后该如何保证其高可用性
+  zk+replicate-leveldb-store保证高可用
+2. 异步投递Async Seconds
+  - 这里的异步指的是发送端的异步，发送端大多数的情况下是异步的，但是如果是明确指定同步，或者是使用非事物的前提下，发送持久化消息也会是同步。这里的同步是指发送端会等待broker的确认表示消息已收到，才会继续发送下一条。在巨大发送量前提下，允许少量休息丢失的场景，可以通过useAsyncSecond=true强制异步。三种开启方式1.url参数2.ConnectionFactory设置，3.connecton设置
+  - 异步发送如何确保发送成功？异步发送需要接受回调。
+3. 延迟投递和定时投递
+    - 在activeMq.xml里面的broker标签中，开启延时投递schedulerSupport="true"
+    - 在java代码里面封装辅助消息类ScheduledMessage。
+    - 在message里面设置longproperty，ScheduledMessage.AMQ_SCHEDUALED_DELAY/PERIOD/REPEAT。分别对应延时，周期，重复。延时指的是从消息发送到消息接收延时，周期是指多长时间重发一次，重复是指重复几次。
+4. 分发策略
+5. ActiveMQ消费重试机制
+  - 使用事物但是没有commit，或者rollback，在client ack模式下，session调用了recover
+  - 重发间隔1秒，重试6次
+  - poison ACK。超过6次最大次数，消费端会给MQ发送一个poison ack 表示这个消息有毒，不要再发了，这时候broker会把消息放到DLQ（死信队列）。
+  - 重试机制可以手动调整
+6. 死信队列
+  - ActiveMQ.DLQ 异常消息都放在这里，需要进行人工干预
+  - 所有死亡信息默认共享在一个队列，可以通过sharedDeatLetterStrategy改变。可以把useQueueForQueueMessaages等于false。然后开启每一个队列自己的死信队列。
+  - 可以设置过期消息直接丢弃，不放在死信队列
+  - 默认不回把非持久放进私信队列，可以修改为存放非持久化消息到死信队列。
+7. 如何保证消息不被重复消费呢？幂等新问题
+  - 消息跟主键关联，通过数据库的方式防止重新插入
+  - 用第三方缓存，比如redis，给消息分配一个全局的id，只要消费国该消息，将<id,message>通过k-v形式写入redis，消费者消费开始消费之前，先去redis查询，如果有就不消费。
 
 
 
