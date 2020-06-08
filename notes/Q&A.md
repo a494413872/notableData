@@ -2,7 +2,7 @@
 tags: [java/基础知识]
 title: Q&A
 created: '2020-04-22T05:53:56.719Z'
-modified: '2020-04-22T06:33:27.502Z'
+modified: '2020-06-01T07:12:27.369Z'
 ---
 
 # Q&A
@@ -23,6 +23,12 @@ Read_uncommited|读未提交|允许另外一个事物看到当前事物未提交
 Read_commited|读取提交内容|一个事物只能看到其他事物已提交数据|大部分在用(除mysql)|不可重复读
 repeatable_read|可重复读|一个事物多个实例并发读取会看到同样数据|mysql默认|幻读
 Serializable|可串行化|每个读的数据上加上共享锁，使之串行|超时和锁竞争
+
+
+jms中间件选型
+gc
+netty的长处
+
 
 
 
