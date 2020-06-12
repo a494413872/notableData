@@ -2,7 +2,7 @@
 tags: [java/中间件]
 title: dubbo特性
 created: '2020-04-16T04:00:21.664Z'
-modified: '2020-04-16T04:00:23.710Z'
+modified: '2020-06-09T02:57:38.346Z'
 ---
 
 # dubbo特性
@@ -36,7 +36,7 @@ dubbo:reference 的 check属性表示是否在启动时检查服务是否存在�
 
 dubbo:reference 的timeout表示多长时间调用超时，还可以通过method标签为某一个方法配置超时时间。
 dubbo:service 也可以配置timeout。
-优先级总结来说，精确有限，相同级别消费者优先
+优先级总结来说，精确优先，相同级别消费者优先
 
 dubbo:provider 统一配置提供方属性
 
