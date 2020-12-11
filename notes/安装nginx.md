@@ -2,7 +2,7 @@
 tags: [linux/myserver]
 title: 安装nginx
 created: '2020-04-16T09:01:16.237Z'
-modified: '2020-05-11T06:51:08.617Z'
+modified: '2020-11-05T08:04:49.142Z'
 ---
 
 # 安装nginx
@@ -40,6 +40,9 @@ cd 到/usr/nginx目录下。执行ls，可以看到四个目录
 conf----配置文件  html----网页文件  logs-----日志文件  sbin------主要二进制程序
 ```
 /usr/ngnix/sbin/nginx    -c(无参数) 启动    （-s  stop）关闭    （-s reload）重启
+
+/usr/nginx/sbin/nginx -c /usr/nginx/conf/nginx.conf
+
 ```
 
 

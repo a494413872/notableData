@@ -2,7 +2,7 @@
 tags: [java/中间件]
 title: dubbo特性
 created: '2020-04-16T04:00:21.664Z'
-modified: '2020-06-09T02:57:38.346Z'
+modified: '2020-11-02T08:45:24.560Z'
 ---
 
 # dubbo特性
@@ -125,6 +125,15 @@ springboot整合dubbo
         2. reply方法接收到rpcInvocation之后，通过请求参数去exportorMap里面获取exporter
         3. 从exprorter中取出带filter的invoker，依次调用invoke方法
         4. 最终代理到springBean的具体实现类。通过反射调用实现类的方法。
+
+### 2020年11月2日 杂记
+- spring 初始化的时候会调用AbstractApplicationContext#refresh方法。在这个方法中。obtainFreshBeanFactory 会去加载beanDefination，这里暂时只关注dubbo相关加载。
+- spring解析dubbo的配置文件把配置转换为对应的beanDefination。这个beanDefination是一个RootBeanDefination里面会有对应的beanClass，比如一个registry节点对应的beanclass就是class com.alibaba.dubbo.config.RegistryConfig.
+- 上面的beanDefination会注册到一个map里面。注册方式是，ParserContext.getRootContext.getRegistry.registerBeanDefinition.最终是调用DefaultListableBeanFactory#registerBeanDefinition，因为这个类实现了registry接口。
+- AbstractApplicationContext#finishBeanFactoryInitialization 里面会实例化所有的单例。
+  - 初始化单例的时候先调用构造函数创建出来对象
+  - 对象会被放到（map）singletonFactories，（LinkList）registeredSingletons
+  - 创建出来对象之后，会根据bean上实现的接口调用对应的方法进行一些初始化工作。
 
 
 

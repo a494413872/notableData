@@ -1,9 +1,9 @@
 ---
 attachments: [Clipboard_2020-06-16-17-38-40.png, Clipboard_2020-06-16-19-40-58.png, Clipboard_2020-06-16-19-44-52.png, Clipboard_2020-06-16-20-06-12.png, Clipboard_2020-06-16-20-37-01.png, Clipboard_2020-06-16-20-40-48.png, Clipboard_2020-06-16-20-54-33.png, Clipboard_2020-06-16-21-03-17.png, Clipboard_2020-06-17-11-02-16.png, Clipboard_2020-06-17-11-27-09.png, Clipboard_2020-06-17-14-33-05.png, Clipboard_2020-06-17-14-50-14.png, Clipboard_2020-06-17-16-23-15.png, Clipboard_2020-06-17-17-43-08.png]
-tags: [java/杂记]
+tags: [java/jvm]
 title: jvm调优
 created: '2020-06-16T09:37:08.546Z'
-modified: '2020-06-18T03:22:41.258Z'
+modified: '2020-12-10T09:05:20.754Z'
 ---
 
 # jvm调优
@@ -81,4 +81,8 @@ gcc: 本次GC回收的原因
 一直访问一直到触发full gc
 ![](@attachment/Clipboard_2020-06-17-17-43-08.png)
 最终解决方案就是调整新生代的大小。
+
+
+拉取线程dump
+jstack -l pid > 1.txt
 

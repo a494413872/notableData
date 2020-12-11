@@ -1,9 +1,9 @@
 ---
 attachments: [Clipboard_2020-09-07-11-28-30.png]
-tags: [java/杂记]
+tags: [java/数据库]
 title: mysql知识碎片
 created: '2020-08-26T08:42:49.607Z'
-modified: '2020-09-07T03:28:30.209Z'
+modified: '2020-10-29T07:25:54.555Z'
 ---
 
 # mysql知识碎片
