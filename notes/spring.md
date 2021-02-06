@@ -2,7 +2,7 @@
 tags: [java/中间件]
 title: spring
 created: '2020-11-26T08:56:31.626Z'
-modified: '2020-12-07T07:02:42.699Z'
+modified: '2021-01-21T08:18:15.767Z'
 ---
 
 # spring
@@ -24,15 +24,13 @@ modified: '2020-12-07T07:02:42.699Z'
 this.prepareRefresh();
 this.prepareBeanFactory(beanFactory);
 this.postProcessBeanFactory(beanFactory);
-this.invokeBeanFactoryPostProcessors(beanFactory);
-在这里完成了扫描，生成了beanDeifnationMap
+this.invokeBeanFactoryPostProcessors(beanFactory);在这里完成了扫描，生成了beanDeifnationMap
 this.registerBeanPostProcessors(beanFactory);
 this.initMessageSource();
 this.initApplicationEventMulticaster();
 this.onRefresh();
 this.registerListeners();
-this.finishBeanFactoryInitialization(beanFactory);
-在这里完成了实例化
+this.finishBeanFactoryInitialization(beanFactory);在这里完成了实例化
 this.finishRefresh();
 
 - 在实例化过程中，会调用getBean->doGetBean方法。在这里面会调用两个getSingleton方法。如果第一个
@@ -65,13 +63,13 @@ spring实例化全过程
 - 实例化spirng容器
 - 扫描类
 - 解析类
-- 所有beandefination存到map
+- 实例化BeanDefination，并且存到map
 - 调用Bean工厂的后置处理器
-- 验证
+- 验证（比如类是不是dependsOn的，如果是的话就先不处理，判断是不是单例，单例才会实例化）
 - 推断构造方法
 - new对象，反射
 - 缓存注解信息
-- 提前暴露自己
+- 提前暴露自己的工厂
 - 判断是否需要完成属性注入
 - 完成属性注入
 - 调用生命周期回调方法
@@ -82,7 +80,9 @@ spring实例化全过程
 
 
 #### 散乱的知识点
-##### @PostConstruct 调用完构造函数之后的回调方法。
+1. @PostConstruct 调用完构造函数之后的回调方法。
+2. 单例对象spring会实例化，原型对象spring并不会实例化。
+
 
 ##### 如何判断spring是否默认
 在spring里面有一个属性isAllowCircularReferenes来判断是否开始循环依赖。默认是true。这个属性在AbstractAutowireCapableBeanFactory里面。
@@ -94,7 +94,8 @@ spring实例化全过程
 3. 方法上加@PostConstruct注解。
 执行顺序是，3-->1-->2
 
-###### spring12个后置执行器
+
+#### refresh方法堆栈。
 
 
 

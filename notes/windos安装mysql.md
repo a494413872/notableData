@@ -1,9 +1,9 @@
 ---
 attachments: [Clipboard_2020-07-13-21-17-46.png, Clipboard_2020-07-13-21-24-33.png, Clipboard_2020-07-13-21-25-31.png, Clipboard_2020-07-13-21-47-00.png, Clipboard_2020-07-13-21-48-55.png, Clipboard_2020-07-13-21-50-23.png, Clipboard_2020-07-13-21-53-10.png, Clipboard_2020-07-13-21-54-33.png, Clipboard_2020-07-13-21-55-28.png, Clipboard_2020-07-13-22-02-30.png, Clipboard_2020-07-13-22-04-19.png, Clipboard_2020-07-13-22-10-46.png, Clipboard_2020-07-13-22-11-36.png]
-tags: [java/杂记]
+tags: [java/数据库]
 title: windos安装mysql
 created: '2020-07-13T13:15:02.312Z'
-modified: '2020-07-13T14:11:36.782Z'
+modified: '2021-01-30T09:12:34.061Z'
 ---
 
 # windos安装mysql

@@ -1,8 +1,9 @@
 ---
+attachments: [Clipboard_2021-01-18-15-16-39.png]
 tags: [linux/myserver]
 title: 安装mysql
 created: '2020-07-29T06:16:47.434Z'
-modified: '2020-07-29T08:25:46.925Z'
+modified: '2021-01-18T07:19:01.007Z'
 ---
 
 # 安装mysql
@@ -164,4 +165,19 @@ Query OK, 0 rows affected (0.00 sec)
 
 mysql> source /usr/smiledb.sql
 ```    
+
+发现mysql占用内存过高。
+然后根据网上配置修改配置文件vi /etc/my.cnf
+``` 
+key_buffer_size = 16M
+table_open_cache = 64
+sort_buffer_size = 512K
+net_buffer_length = 8K
+read_buffer_size = 256K
+read_rnd_buffer_size = 512K
+myisam_sort_buffer_size = 8M
+``` 
+key_buffer_size 只对MyISAM 表起作用
+重启mysql
+以前占用80+的mysql，现在只占用20+
 
