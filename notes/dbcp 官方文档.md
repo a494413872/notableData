@@ -2,10 +2,10 @@
 tags: [java/转载]
 title: dbcp 官方文档
 created: '2020-12-30T03:23:38.134Z'
-modified: '2020-12-30T03:47:53.239Z'
+modified: '2021-02-06T10:37:06.291Z'
 ---
 
-# dbcp 官方文档
+# dbcp 官方文档 
 
 dbcp配置中文版本，翻译自apache 官方文档，原文请见http://commons.apache.org/dbcp/configuration.html。
 ** **
